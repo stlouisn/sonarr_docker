@@ -22,7 +22,8 @@ before_install:
 
 install:
   - echo ${VERSION} > docker.rootfs/${NAME}_version
-
+  - chmod 0744 docker.rootfs/usr/local/bin/docker_entrypoint.sh
+ 
 before_script:
   - if [ "${TRAVIS_BRANCH}" == "master" ]; then
       export DOCKER_TAG="latest";
@@ -46,7 +47,7 @@ script:
     --tag ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG} .
 
 after_success:
-  - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+  - echo ${DOCKER_PASSWORD} | docker login --username ${DOCKER_USERNAME} --password-stdin
   - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG}
 
 notifications:
