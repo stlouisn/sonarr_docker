@@ -27,7 +27,8 @@ RUN \
 
     # Install temporary-tools
     apt-get install -y --no-install-recommends \
-        dirmngr && \
+        dirmngr \
+        gnupg && \
 
     # Add sonarr apt-repository
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC && \
@@ -43,7 +44,8 @@ RUN \
 
     # Remove temporary-tools
     apt-get purge -y \
-        dirmngr && \
+        dirmngr \
+        gnupg && \
 
     # Clean apt-cache
     apt autoremove -y --purge && \
