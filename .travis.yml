@@ -33,7 +33,6 @@ env:
 before_install:
   - docker version
   - sudo /sbin/sysctl -w net.ipv4.conf.all.forwarding=1
-  - sudo /sbin/sysctl net.ipv4.conf.all.forwarding
 
 install:
 
