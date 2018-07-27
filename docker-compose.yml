@@ -1,18 +1,19 @@
-version: '2.3'
+version: '2.4'
 
 services:
 
   sonarr:
-    image: stlouisn/sonarr:latest
+    image: stlouisn/sonarr
     container_name: sonarr
     hostname: sonarr
     environment:
+      - LC_ALL=C.UTF-8
       - TZ=UTC
     restart: always
     volumes:
-      - ./sonarr/config:/var/lib/sonarr:rw
-      - ./storage/downloads:/downloads:rw
-      - ./storage/tvshows:/tv:rw
+      - /docker/sonarr/config:/var/lib/sonarr:rw
+      - /media/downloads:/downloads:rw
+      - /media/tvshows:/tv:rw
     logging:
       driver: json-file
       options:
