@@ -12,6 +12,7 @@ services:
     restart: always
     volumes:
       - /docker/sonarr/config:/var/lib/sonarr:rw
+      - /media/downloads:/downloads:rw
       - /media/tvshows:/tv:rw
     ports:
       - 8989
