@@ -16,9 +16,6 @@ env:
   global:
     - BUILD_DATE="`date -u +%Y-%m-%dT%H:%M:%SZ`"
     - BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"
-    - DISTRIB_ID="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_ID | awk -F '=' {'print $2'}`"
-    - DISTRIB_RELEASE="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_RELEASE | awk -F '=' {'print $2'}`"
-    - DISTRIB_CODENAME="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_CODENAME | awk -F '=' {'print $2'}`"
     - DOCKER_DESCRIPTION="tv show downloader and organizer"
     - DOCKER_MAINTAINER="stlouisn"
     - DOCKER_NAME="sonarr"
