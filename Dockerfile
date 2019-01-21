@@ -59,6 +59,6 @@ RUN \
         /var/lib/apt/lists/* \
         /var/log/*
 
-VOLUME /var/lib/sonarr
+VOLUME /config
 
 ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
