@@ -11,7 +11,7 @@ services:
       - TZ=UTC
     restart: always
     volumes:
-      - /docker/sonarr/config:/var/lib/sonarr:rw
+      - /docker/sonarr/config:/config:rw
       - /media/downloads:/downloads:rw
       - /media/tvshows:/tv:rw
     ports:
