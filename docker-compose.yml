@@ -13,6 +13,6 @@ services:
     volumes:
       - /docker/sonarr/config:/config
       - /media/downloads:/downloads
-      - /media/tvshows:/tv:rw
+      - /media/tvshows:/tv
     ports:
       - 8989
