@@ -3,14 +3,15 @@ dist: trusty
 group: travis_latest
 sudo: required
 
+if: |
+  branch = master AND \
+  NOT commit_message =~ /readme.md/ AND \
+  NOT commit_message =~ /docker-compose.yml/
+
 addons:
   apt:
     packages:
       - docker-ce
-
-branches:
-  only:
-    - master
 
 env:
   global:
@@ -35,7 +36,7 @@ install:
 
 before_script:
   - sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' Dockerfile
-  - chmod 0544 rootfs/usr/local/bin/*.sh
+  - chmod 0544 rootfs/usr/local/bin/docker_entrypoint.sh
 
 script:
   - >
