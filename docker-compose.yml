@@ -11,8 +11,8 @@ services:
       - TZ=UTC
     restart: always
     volumes:
-      - /docker/sonarr/config:/config:rw
-      - /media/downloads:/downloads:rw
+      - /docker/sonarr/config:/config
+      - /media/downloads:/downloads
       - /media/tvshows:/tv:rw
     ports:
       - 8989
