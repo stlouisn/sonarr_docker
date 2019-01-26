@@ -37,7 +37,7 @@ RUN \
 
     # Add mediaarea repository
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5CDF62C7AE05CC847657390C10E11090EC0E438 && \
-    echo "deb https://mediaarea.net/repo/deb/ubuntu xenial main" > /etc/apt/sources.list.d/mediaarea.list && \
+    echo "deb https://mediaarea.net/repo/deb/ubuntu ${DISTRIB_CODENAME} main" > /etc/apt/sources.list.d/mediaarea.list && \
 
     # Update apt-cache
     apt-get update && \
@@ -57,8 +57,9 @@ RUN \
         gnupg && \
 
     # Clean apt-cache
-    apt autoremove -y --purge && \
-    apt autoclean -y && \
+    apt-get autoremove -y --purge && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
 
     # Cleanup temporary folders
     rm -rf \
@@ -66,7 +67,6 @@ RUN \
         /root/.wget-hsts \
         /tmp/* \
         /var/lib/apt/lists/* \
-        /var/log/*
 
 VOLUME /config
 
