@@ -66,7 +66,7 @@ RUN \
         /root/.cache \
         /root/.wget-hsts \
         /tmp/* \
-        /var/lib/apt/lists/* \
+        /var/lib/apt/lists/*
 
 VOLUME /config
 
