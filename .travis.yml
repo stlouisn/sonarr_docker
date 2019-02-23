@@ -5,8 +5,9 @@ sudo: required
 
 if: |
   branch = master AND \
-  NOT commit_message =~ /readme.md/ AND \
-  NOT commit_message =~ /docker-compose.yml/
+  ! commit_message =~ /readme.md/ AND \
+  ! commit_message =~ /docker-compose.yml/ OR \
+  type = cron
 
 addons:
   apt:
