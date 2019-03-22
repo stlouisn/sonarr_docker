@@ -11,6 +11,6 @@ chown -R sonarr:sonarr /config
 #=========================================================================================
 
 # Start sonarr in console mode
-exec gosu sonarr \
+exec gosu www-data \
     /usr/bin/mono --debug \
     /opt/NzbDrone/NzbDrone.exe -nobrowser -data=/config
