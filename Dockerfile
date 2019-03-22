@@ -7,22 +7,6 @@ RUN \
     export DEBIAN_FRONTEND=noninteractive && \
     export `cat /etc/lsb-release | grep -v DESCRIPTION` && \
 
-    # Create sonarr group
-    groupadd \
-        --system \
-        --gid 10000 \
-        sonarr && \
-
-    # Create sonarr user
-    useradd \
-        --system \
-        --no-create-home \
-        --shell /sbin/nologin \
-        --comment sonarr \
-        --gid 10000 \
-        --uid 10000 \
-        sonarr && \
-
     # Update apt-cache
     apt-get update && \
 
@@ -49,7 +33,7 @@ RUN \
     # Install sonarr
     apt-get install -y --no-install-recommends \
         nzbdrone && \
-    chown -R sonarr:sonarr /opt/NzbDrone && \
+    chown -R www-data:www-data /opt/NzbDrone && \
 
     # Remove temporary-tools
     apt-get purge -y \
