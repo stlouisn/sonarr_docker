@@ -20,8 +20,8 @@ Sonarr is a tv show collection manager for Usenet and BitTorrent users. It can m
 
 ### Tags
 
-[![Version](https://images.microbadger.com/badges/version/stlouisn/sonarr.svg)][microbadger_url]
-[![Layers](https://images.microbadger.com/badges/image/stlouisn/sonarr.svg)][microbadger_url]
+[![Version](https://images.microbadger.com/badges/version/stlouisn/sonarr:latest.svg)][microbadger_url]
+[![Layers](https://images.microbadger.com/badges/image/stlouisn/sonarr:latest.svg)][microbadger_url]
 
 ### Feature Requests
 
