@@ -27,7 +27,7 @@ env:
 
   matrix:    
     - DOCKER_TAG="latest"
-      DOCKER_VERSION="$(curl -sSL https://github.com/Sonarr/Sonarr/releases | grep '.tar.gz' | head -n 1 | awk -F '/v' '{print $2}' | awk -F '.tar' '{print $1}'")
+      DOCKER_VERSION="$(curl -ksSL https://github.com/Sonarr/Sonarr/releases | grep '.tar.gz' | head -n 1 | awk -F '/v' {'print $2'} | awk -F '.tar' {'print $1'})"
 
 before_install:
   - sudo /sbin/sysctl -w net.ipv4.conf.all.forwarding=1
