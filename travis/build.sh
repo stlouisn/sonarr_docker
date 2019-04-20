@@ -13,10 +13,11 @@ for arch in $architectures; do
 	# Build temporary image
 	buildctl build \
 		--frontend dockerfile.v0 \
+		--progress plain \
 		--opt platform=linux/$arch \
-		--opt filename=docker/Dockerfile.${DOCKER_NAME}-${DOCKER_TAG}-$arch \
+		--opt filename=dockerfiles/${DOCKER_NAME}-${DOCKER_TAG}-${OS_NAME}-$arch \
 		--local dockerfile=. \
 		--local context=. \
-		--output type=image,name=docker.io/${DOCKER_USERNAME}/${DOCKER_NAME}:${DOCKER_TAG}-$arch,push=true
+		--output type=image,name=docker.io/${DOCKER_USERNAME}/${DOCKER_NAME}:${DOCKER_TAG}-${OS_NAME}-$arch,push=true
 
 done
