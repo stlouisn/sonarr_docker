@@ -1,4 +1,4 @@
-FROM stlouisn/mono:latest
+FROM stlouisn/mono:latest-amd64
 
 COPY rootfs /
 
@@ -6,6 +6,22 @@ RUN \
 
     export DEBIAN_FRONTEND=noninteractive && \
     export `cat /etc/lsb-release | grep -v DESCRIPTION` && \
+
+    # Create sonarr group
+    groupadd \
+        --system \
+        --gid 10000 \
+        sonarr && \
+
+    # Create sonarr user
+    useradd \
+        --system \
+        --no-create-home \
+        --shell /sbin/nologin \
+        --comment sonarr \
+        --gid 10000 \
+        --uid 10000 \
+        sonarr && \
 
     # Update apt-cache
     apt-get update && \
@@ -15,9 +31,9 @@ RUN \
         dirmngr \
         gnupg && \
 
-    # Add sonarr apt-repository
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC && \
-    echo "deb http://apt.sonarr.tv/ master main" > /etc/apt/sources.list.d/sonarr.list && \
+    # Install sqlite
+    apt-get install -y --no-install-recommends \
+        sqlite3 && \
 
     # Add mediaarea repository
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5CDF62C7AE05CC847657390C10E11090EC0E438 && \
@@ -30,10 +46,9 @@ RUN \
     apt-get install -y --no-install-recommends \
         mediainfo && \
 
-    # Install sonarr
+    # Install chromaprint/fpcalc
     apt-get install -y --no-install-recommends \
-        nzbdrone && \
-    chown -R www-data:www-data /opt/NzbDrone && \
+        libchromaprint-tools && \
 
     # Remove temporary-tools
     apt-get purge -y \
@@ -50,6 +65,8 @@ RUN \
         /root/.wget-hsts \
         /tmp/* \
         /var/lib/apt/lists/*
+
+COPY --chown=sonarr:sonarr userfs /
 
 VOLUME /config
 
