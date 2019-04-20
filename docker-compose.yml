@@ -3,16 +3,20 @@ version: '2.4'
 services:
 
   sonarr:
-    image: stlouisn/sonarr
+    image: stlouisn/sonarr:latest
     container_name: sonarr
     hostname: sonarr
-    environment:
-      - LC_ALL=C.UTF-8
-      - TZ=UTC
     restart: always
     volumes:
       - /docker/sonarr/config:/config
       - /media/downloads:/downloads
       - /media/tvshows:/tv
+    mem_limit: 500M
+    memswap_limit: 500M
+    logging:
+      driver: json-file
+        options:
+          max-size: "10M"
+          max-file: "3"
     ports:
       - 8989
