@@ -6,6 +6,9 @@ services:
     image: stlouisn/sonarr:latest
     container_name: sonarr
     hostname: sonarr
+    environment:
+      - LC_ALL=C.UTF-8
+      - TZ=UTC
     restart: always
     volumes:
       - /docker/sonarr/config:/config
