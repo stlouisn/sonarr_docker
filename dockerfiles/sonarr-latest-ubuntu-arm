@@ -1,4 +1,4 @@
-FROM stlouisn/mono:latest-arm
+FROM stlouisn/mono:latest-ubuntu-arm
 
 COPY rootfs /
 
