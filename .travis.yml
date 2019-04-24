@@ -4,6 +4,7 @@ group: travis_latest
 if: |
   branch = master AND ! commit_message =~ /readme.md/ AND ! commit_message =~ /docker-compose.yml/
   OR type = cron
+
 language: bash
 sudo: required
 
