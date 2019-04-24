@@ -20,9 +20,9 @@ env:
     - DOCKER_MAINTAINER="stlouisn"
     - DOCKER_NAME="sonarr"
     - DOCKER_URL="https://sonarr.tv/"
-    - SCHEMA_VERSION="1.0"
     - OS_NAME="ubuntu"
     - OS_CODENAME="$(curl -ksSL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
+    - SCHEMA_VERSION="1.0"
     - VCS_REF="$(git rev-parse --short HEAD)"
     - VCS_URL="$(git remote get-url origin | head -c-5)"
 
