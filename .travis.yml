@@ -1,12 +1,11 @@
+os: linux
 dist: bionic
 group: travis_latest
+language: shell
 
 if: |
   branch = master AND ! commit_message =~ /readme.md/ AND ! commit_message =~ /docker-compose.yml/
   OR type = cron
-
-language: bash
-sudo: required
 
 services:
   - docker
@@ -21,13 +20,12 @@ env:
     - DOCKER_NAME="sonarr"
     - DOCKER_URL="https://sonarr.tv/"
     - OS_NAME="ubuntu"
-    - OS_CODENAME="$(curl -ksSL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
+    - OS_CODENAME="$(curl -fsSL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
     - SCHEMA_VERSION="1.0"
     - VCS_REF="$(git rev-parse --short HEAD)"
     - VCS_URL="$(git remote get-url origin | head -c-5)"
-
     - DOCKER_TAG="latest"
-    - DOCKER_VERSION="$(curl -ksSL https://github.com/Sonarr/Sonarr/releases | grep '.tar.gz' | head -n 1 | awk -F '/v' {'print $2'} | awk -F '.tar' {'print $1'})"
+    - DOCKER_VERSION="$(sudo bash travis/get_version.sh)"
 
 before_install:
   - sudo /sbin/sysctl -w net.ipv4.conf.all.forwarding=1
@@ -43,7 +41,7 @@ install:
 before_script:
   - sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' dockerfiles/*
   - chmod 0544 rootfs/usr/local/bin/docker_entrypoint.sh
-  - curl -ksSL -o nzbdrone.tar.gz "http://update.sonarr.tv/v2/master/mono/NzbDrone.master.tar.gz"
+  - curl -sSL -o nzbdrone.tar.gz "http://update.sonarr.tv/v2/master/mono/NzbDrone.master.tar.gz"
   - mkdir -p ./userfs
   - tar -xf nzbdrone.tar.gz -C userfs/
 
