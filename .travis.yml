@@ -1,5 +1,5 @@
 os: linux
-dist: bionic
+dist: focal
 group: travis_latest
 language: shell
 
