@@ -1,5 +1,5 @@
-[travis_logo]: https://travis-ci.org/stlouisn/sonarr_docker.svg?branch=master
-[travis_url]: https://travis-ci.org/stlouisn/sonarr_docker
+[travis_logo]: https://travis-ci.com/stlouisn/sonarr_docker.svg?branch=master
+[travis_url]: https://travis-ci.com/stlouisn/sonarr_docker
 [docker_stars_logo]: https://img.shields.io/docker/stars/stlouisn/sonarr.svg
 [docker_pulls_logo]: https://img.shields.io/docker/pulls/stlouisn/sonarr.svg
 [docker_hub_url]: https://hub.docker.com/r/stlouisn/sonarr
