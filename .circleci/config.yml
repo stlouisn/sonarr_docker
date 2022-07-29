@@ -1,0 +1,68 @@
+version: 2.1
+
+jobs:
+  build-multiarch-container:
+    resource_class: small
+    environment:
+      C_DESCRIPTION: "tvshow collection manager"   # <-- variable
+      C_MAINTAINER: "stlouisn"                     # <-- variable
+      C_NAME: "sonarr"                             # <-- variable
+      C_TAG: "latest"                              # <-- variable
+      BUILD_PLATFORMS: "linux/arm64,linux/arm/v7"
+      DOCKER_LOGIN: "stlouisn"
+    docker:
+      - image: cimg/base:stable
+        auth:
+          username: $DOCKER_LOGIN
+          password: $DOCKER_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+      - run:
+          name: Label dockerfile
+          command: |
+            export C_VERSION="$(bash .circleci/get_version.sh)"
+            bash .circleci/docker_labels.sh
+      - run:
+          name: Preparing dockerfile
+          command: |
+            sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' dockerfile
+            cat dockerfile
+      - run:
+          name: Preparing root filesystem
+          command: bash .circleci/rootfs_chmod.sh
+      - run:
+          name: Configure Docker Hub
+          command: |
+            [ -z "$DOCKER_LOGIN" ] && exit 1
+            [ -z "$DOCKER_PASSWORD" ] && exit 1
+            echo "$DOCKER_PASSWORD" | docker login --username=$DOCKER_LOGIN --password-stdin
+      - run:
+          name: Configure Docker Buildx
+          command: |
+            docker buildx version
+            echo
+            sudo apt-get update -qq && sudo apt-get install -y binfmt-support qemu-user-static
+            echo
+            docker pull multiarch/qemu-user-static
+            echo
+            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+            echo
+            docker context create buildcontext
+            echo
+            docker buildx create buildcontext --use --platform $BUILD_PLATFORMS
+      - run:
+          name: Build and push container
+          no_output_timeout: 20m
+          command: |
+            docker buildx inspect --bootstrap
+            echo
+            docker buildx build --tag $C_MAINTAINER/$C_NAME:$C_TAG --platform $BUILD_PLATFORMS --progress plain --push .
+
+workflows:
+  version: 2
+  build-container:
+    jobs:
+      - build-multiarch-container:
+          name: build-docker-sonarr   # <-- variable
