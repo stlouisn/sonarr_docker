@@ -26,3 +26,5 @@ Sonarr is a tvshow collection manager for Usenet and BitTorrent users. It can mo
 #### Links
 
 *https://sonarr.tv/*
+
+*https://wiki.servarr.com/sonarr*
