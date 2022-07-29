@@ -15,7 +15,7 @@ RUN \
         jq && \
 
     # Determine Latest Stable Radar Version
-    export APP_VERSION="$(curl -sSL --retry 5 --retry-delay 2 "http://services.sonarr.tv/v1/releases" | jq -r '.[].version' | head -n 1)"
+    export APP_VERSION="$(curl -sSL --retry 5 --retry-delay 2 "http://services.sonarr.tv/v1/releases" | jq -r '.[].version' | head -n 1)" && \
 
     # Download Sonarr
     curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v3/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux.tar.gz" && \
