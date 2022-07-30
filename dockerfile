@@ -12,7 +12,7 @@ RUN \
     apt-get install -y --no-install-recommends \
         jq && \
 
-    # Determine Latest Stable Radar Version
+    # Get Latest Version
     export APP_VERSION="$(curl -sSL --retry 5 --retry-delay 2 "http://services.sonarr.tv/v1/releases" | jq -r '.[].version' | head -n 1)" && \
 
     # Download Sonarr
