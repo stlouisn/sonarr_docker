@@ -18,4 +18,3 @@ fi
 exec gosu sonarr \
     /usr/bin/mono --debug \
     /Sonarr/Sonarr.exe -nobrowser -data=/config
-    
