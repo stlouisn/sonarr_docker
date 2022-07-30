@@ -1,7 +1,5 @@
 FROM stlouisn/ubuntu:latest AS dl
 
-ARG TARGETARCH
-
 RUN \
 
     # Non-interactive frontend
