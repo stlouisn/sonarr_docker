@@ -21,7 +21,7 @@
 [![Docker Pulls][docker_pulls_logo]][docker_pulls_url]
 [![License][license_logo]][license_url]
 
-Sonarr is a tvshow collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes and will interface with clients and indexers to grab, sort, and rename them. It can also be configured to automatically upgrade the quality of existing files in the library when a better quality format becomes available.
+Sonarr is a tv series collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes and will interface with clients and indexers to grab, sort, and rename them. It can also be configured to automatically upgrade the quality of existing files in the library when a better quality format becomes available.
 
 #### Links
 
