@@ -1,0 +1,8 @@
+# Build variables
+export BUILD_PLATFORMS="linux/arm64,linux/arm/v7"
+
+# Docker labels
+export C_DESCRIPTION="tvshow collection manager"
+export C_MAINTAINER="stlouisn"
+export C_NAME="sonarr"
+export C_TAG="latest"
