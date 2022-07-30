@@ -3,41 +3,40 @@ version: 2.1
 jobs:
   build-multiarch-container:
     resource_class: small
-    environment:
-      C_DESCRIPTION: "tvshow collection manager"   # <-- variable
-      C_MAINTAINER: "stlouisn"                     # <-- variable
-      C_NAME: "sonarr"                             # <-- variable
-      C_TAG: "latest"                              # <-- variable
-      BUILD_PLATFORMS: "linux/arm64,linux/arm/v7"
-      DOCKER_LOGIN: "stlouisn"
     docker:
       - image: cimg/base:stable
         auth:
-          username: $DOCKER_LOGIN
+          username: stlouisn
           password: $DOCKER_PASSWORD
     steps:
-      - checkout
+      - checkout:
+          name: Checkout code
       - setup_remote_docker:
+          name: Spin up remote Docker Engine
           version: 20.10.11
       - run:
-          name: Label dockerfile
+          name: Setting environment variables
           command: |
-            export C_VERSION="$(bash .circleci/get_version.sh)"
-            bash .circleci/docker_labels.sh
+            cat environment >> $BASH_ENV
+            bash scripts/get_date.sh
+            bash scripts/get_version.sh
+            source $BASH_ENV
+            env | grep '^BUILD_' | sort
+            env | grep '^C_' | sort
+            echo
       - run:
           name: Preparing dockerfile
           command: |
+            bash scripts/set_labels.sh
             sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' dockerfile
             cat dockerfile
-      - run:
-          name: Preparing root filesystem
-          command: bash .circleci/rootfs_chmod.sh
+            echo
       - run:
           name: Configure Docker Hub
           command: |
-            [ -z "$DOCKER_LOGIN" ] && exit 1
             [ -z "$DOCKER_PASSWORD" ] && exit 1
-            echo "$DOCKER_PASSWORD" | docker login --username=$DOCKER_LOGIN --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login --username=stlouisn --password-stdin
+            echo
       - run:
           name: Configure Docker Buildx
           command: |
@@ -51,18 +50,18 @@ jobs:
             echo
             docker context create buildcontext
             echo
-            docker buildx create buildcontext --use --platform $BUILD_PLATFORMS
+            docker buildx create buildcontext --use --platform $BUILD_PLATFORMS > /dev/null
       - run:
           name: Build and push container
           no_output_timeout: 20m
           command: |
             docker buildx inspect --bootstrap
             echo
-            docker buildx build --tag $C_MAINTAINER/$C_NAME:$C_TAG --platform $BUILD_PLATFORMS --progress plain --push .
+            docker buildx build --tag stlouisn/$C_NAME:$C_TAG --platform $BUILD_PLATFORMS --progress plain --push .
+            echo
 
 workflows:
   version: 2
   build-container:
     jobs:
-      - build-multiarch-container:
-          name: build-docker-sonarr   # <-- variable
+      - build-multiarch-container
