@@ -1,19 +1,19 @@
 FROM stlouisn/ubuntu:latest AS dl
 
-RUN \
+ARG TARGETARCH
 
-    # Non-interactive frontend
-    export DEBIAN_FRONTEND=noninteractive && \
+ARG APP_VERSION
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN \
 
     # Update apt-cache
     apt-get update && \
 
     # Install jq
     apt-get install -y --no-install-recommends \
-        jq && \
-
-    # Get Latest Version
-    export APP_VERSION="$(curl -sSL --retry 5 --retry-delay 2 "http://services.sonarr.tv/v1/releases" | jq -r '.[].version' | head -n 1)" && \
+        curl && \
 
     # Download Sonarr
     curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v3/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux.tar.gz" && \
@@ -27,12 +27,11 @@ RUN \
 
 FROM stlouisn/ubuntu:latest
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 COPY rootfs /
 
 RUN \
-
-    # Non-interactive frontend
-    export DEBIAN_FRONTEND=noninteractive && \
 
     # Create sonarr group
     groupadd \
