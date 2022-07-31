@@ -1,7 +1,8 @@
 version: 2.1
 
 jobs:
-  build-multiarch-container:
+
+  build:
     resource_class: small
     docker:
       - image: cimg/base:stable
@@ -57,11 +58,33 @@ jobs:
           command: |
             docker buildx inspect --bootstrap
             echo
-            docker buildx build --tag stlouisn/$C_NAME:$C_TAG --platform $BUILD_PLATFORMS --progress plain --push .
+            docker buildx build \
+              --tag stlouisn/$C_NAME:$C_TAG \
+              --platform $BUILD_PLATFORMS \
+              --build-arg APP_VERSION=$C_VERSION \
+              --progress plain \
+              --push .
             echo
+
+  # test:
+  #   resource_class: small
+  #   docker:
+  #     - image: cimg/base:stable
+  #       auth:
+  #         username: stlouisn
+  #         password: $DOCKER_PASSWORD
+  #   steps:
+  #     - run:
+  #         name: Setting environment variables
+  #         command: docker run
 
 workflows:
   version: 2
   build-container:
     jobs:
-      - build-multiarch-container
+      - build:
+          name: build-container
+      # - test:
+      #     name: test-container
+      #     requires:
+      #       - build
