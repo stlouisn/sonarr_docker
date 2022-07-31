@@ -1,0 +1,145 @@
+version: '2.4'
+
+services:
+
+    openvpn:
+        image: stlouisn/openvpn:latest
+        container_name: openvpn
+        hostname: openvpn
+        environment:
+            - LC_ALL=C.UTF-8
+            - TZ=America/Halifax
+        restart: unless-stopped
+        volumes:
+            - /docker/openvpn/config:/config
+        mem_limit: 1000M
+        memswap_limit: 1000M
+        cap_add:
+            - NET_ADMIN
+        sysctls:
+            - net.ipv6.conf.all.disable_ipv6=0
+        logging:
+            driver: json-file
+            options:
+                max-size: "10M"
+                max-file: "3"
+        healthcheck:
+            test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
+            start_period: 30s
+            interval: 60s
+            timeout: 30s
+            retries: 5
+        dns: 8.8.8.8 # replace with VPN's DNS
+
+    transmission:
+        image: stlouisn/transmission:latest
+        container_name: transmission
+        environment:
+            - LC_ALL=C.UTF-8
+            - TZ=America/Halifax
+            - CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+        restart: unless-stopped
+        volumes:
+            - /docker/transmission/config:/config
+            - /storage/downloads:/downloads
+        mem_limit: 500M
+        memswap_limit: 500M
+        logging:
+            driver: json-file
+            options:
+                max-size: "10M"
+                max-file: "3"
+        network_mode: service:openvpn
+        depends_on:
+            openvpn:
+                condition: service_healthy
+
+    prowlarr:
+        image: stlouisn/prowlarr:latest
+        container_name: prowlarr
+        environment:
+            - LC_ALL=C.UTF-8
+            - TZ=America/Halifax
+        restart: unless-stopped
+        volumes:
+            - /docker/prowlarr/config:/config
+        mem_limit: 500M
+        memswap_limit: 500M
+        logging:
+            driver: json-file
+            options:
+                max-size: "10M"
+                max-file: "3"
+        network_mode: service:openvpn
+        depends_on:
+            openvpn:
+                condition: service_healthy
+
+    radarr:
+        image: stlouisn/radarr:latest
+        container_name: radarr
+        environment:
+            - LC_ALL=C.UTF-8
+            - TZ=America/Halifax
+        restart: unless-stopped
+        volumes:
+            - /docker/radarr/config:/config
+            - /storage/downloads:/downloads
+            - /storage/movies:/movies
+        mem_limit: 500M
+        memswap_limit: 500M
+        logging:
+            driver: json-file
+            options:
+                max-size: "10M"
+                max-file: "3"
+        network_mode: service:openvpn
+        depends_on:
+            openvpn:
+                condition: service_healthy
+
+    sonarr:
+        image: stlouisn/sonarr:latest
+        container_name: sonarr
+        environment:
+            - LC_ALL=C.UTF-8
+            - TZ=America/Halifax
+        restart: unless-stopped
+        volumes:
+            - /docker/sonarr/config:/config
+            - /storage/downloads:/downloads
+            - /storage/tvshows:/tv
+        mem_limit: 500M
+        memswap_limit: 500M
+        logging:
+            driver: json-file
+            options:
+                max-size: "10M"
+                max-file: "3"
+        network_mode: service:openvpn
+        depends_on:
+            openvpn:
+                condition: service_healthy
+
+    lidarr:
+        image: stlouisn/lidarr:latest
+        container_name: lidarr
+        environment:
+            - LC_ALL=C.UTF-8
+            - TZ=America/Halifax
+        restart: unless-stopped
+        volumes:
+            - /docker/lidarr/config:/config
+            - /storage/downloads:/downloads
+            - /storage/music:/music
+        mem_limit: 500M
+        memswap_limit: 500M
+        logging:
+            driver: json-file
+            options:
+                max-size: "10M"
+                max-file: "3"
+        network_mode: service:openvpn
+        depends_on:
+            openvpn:
+                condition: service_healthy
