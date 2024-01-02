@@ -16,7 +16,7 @@ RUN \
         curl && \
 
     # Download Sonarr
-    curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v3/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux.tar.gz" && \
+    curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux.tar.gz" && \
 
     # Extract Sonarr
     mkdir -p /userfs && \
