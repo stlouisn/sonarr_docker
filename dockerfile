@@ -54,23 +54,17 @@ RUN \
     # Update apt-cache
     apt-get update && \
 
-    # Install Mono
-    apt-get install -y --no-install-recommends \
-        mono-runtime \
-        ca-certificates-mono \
-        libmono-cil-dev && \
-
     # Install sqlite
     apt-get install -y --no-install-recommends \
         sqlite3 && \
 
-    # Install mediainfo
+    # Install unicode support
     apt-get install -y --no-install-recommends \
-        mediainfo && \
+        libicu70 && \
 
-    # Install chromaprint/fpcalc
+    # Install xml command line toolkit
     apt-get install -y --no-install-recommends \
-        libchromaprint-tools && \
+        xmlstarlet && \
 
     # Clean apt-cache
     apt-get autoremove -y --purge && \
