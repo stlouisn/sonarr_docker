@@ -17,4 +17,4 @@ fi
 # Start sonarr in console mode
 exec gosu sonarr \
     /usr/bin/mono --debug \
-    /Sonarr/Sonarr.exe -nobrowser -data=/config
+    /Sonarr/Sonarr -nobrowser -data=/config
