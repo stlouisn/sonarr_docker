@@ -16,9 +16,15 @@ RUN \
         curl && \
 
     # Download Sonarr
-    if [ "arm" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm.tar.gz" ; fi && \
-    if [ "arm64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm64.tar.gz" ; fi && \
-    if [ "amd64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-x64.tar.gz" ; fi && \
+
+        #if [ "arm" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm.tar.gz" ; fi && \
+        if [ "arm" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm.tar.gz" ; fi && \
+
+        #if [ "arm64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm64.tar.gz" ; fi && \
+        if [ "arm64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm64.tar.gz" ; fi && \
+
+        #if [ "amd64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-x64.tar.gz" ; fi && \
+        if [ "amd64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-x64.tar.gz" ; fi && \
 
     # Extract Sonarr
     mkdir -p /userfs && \
