@@ -64,13 +64,19 @@ RUN \
     apt-get install -y --no-install-recommends \
         sqlite3 && \
 
+    # Determine latest LIBICU version
+    export LIBICU=$(apt search libicu | grep "libicu" | grep -v "java" | grep -v "dev" | awk -F '/' {'print $1'}) && \ 
+
     # Install unicode support
     apt-get install -y --no-install-recommends \
-        libicu70 && \
+        $LIBICU && \
 
     # Install xml command line toolkit
     apt-get install -y --no-install-recommends \
         xmlstarlet && \
+
+    # Clean temporary environment variables
+    unset LIBICU && \
 
     # Clean apt-cache
     apt-get autoremove -y --purge && \
