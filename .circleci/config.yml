@@ -14,7 +14,7 @@ jobs:
           name: Checkout code
       - setup_remote_docker:
           name: Spin up remote Docker Engine
-          version: 20.10.11
+          version: default
       - run:
           name: Setting environment variables
           command: |
