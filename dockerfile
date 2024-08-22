@@ -11,19 +11,22 @@ RUN \
     # Update apt-cache
     apt-get update && \
 
-    # Install jq
+    # Install curl
     apt-get install -y --no-install-recommends \
         curl && \
 
     # Download Sonarr
 
-        #if [ "arm" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm.tar.gz" ; fi && \
-        if [ "arm" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm.tar.gz" ; fi && \
+        # ubuntu noble base image causes issues downloading files from github using curl --> temporary working around
+        #if [ "arm" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm.tar.gz" ; fi && \
+        if [ "arm" = "$TARGETARCH" ] ; then apt-get install -y --no-install-recommends wget2 ; fi && \
+        if [ "arm" = "$TARGETARCH" ] ; then wget2 -O /tmp/sonarr.tar.gz -q "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm.tar.gz" ; fi && \
 
-        #if [ "arm64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm64.tar.gz" ; fi && \
-        if [ "arm64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm64.tar.gz" ; fi && \
+        # ubuntu noble base image causes issues downloading files from github using curl --> temporary working around
+        #if [ "arm64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm64.tar.gz" ; fi && \
+        if [ "arm64" = "$TARGETARCH" ] ; then apt-get install -y --no-install-recommends wget2 ; fi && \
+        if [ "arm64" = "$TARGETARCH" ] ; then wget2 -O /tmp/sonarr.tar.gz -q "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-arm64.tar.gz" ; fi && \
 
-        #if [ "amd64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://download.sonarr.tv/v4/main/$APP_VERSION/Sonarr.main.$APP_VERSION.linux-x64.tar.gz" ; fi && \
         if [ "amd64" = "$TARGETARCH" ] ; then curl -o /tmp/sonarr.tar.gz -sSL "https://github.com/Sonarr/Sonarr/releases/download/v$APP_VERSION/Sonarr.main.$APP_VERSION.linux-x64.tar.gz" ; fi && \
 
     # Extract Sonarr
